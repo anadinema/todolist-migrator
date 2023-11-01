@@ -1,0 +1,235 @@
+openapi: 3.0.3
+info:
+  title: Todo List Migrator
+  description: Backend APIs for migrating the TickTick exported CSV into a usable Todoist template which can be used further to import stuff into Todoist
+  version: 1.0.0
+externalDocs:
+  description: GitHub Project
+  url: https://github.com/anadinema/todolist-migrator
+servers:
+  - url: https://anadinema.dev/rest/api/project/migrator
+tags:
+  - name: Migrate
+    description: Migrate the JSON data from TickTick to Todoist CSV template
+  - name: Read
+    description: Provide the CSV to get the data in readable JSON format
+  - name: Manage
+    description: Management and health endpoints
+paths:
+  /v1/transform:
+    post:
+      summary: Endpoint to transform the data into the requested destination format
+      tags:
+        - Migrate
+      operationId: transformForDestination
+      parameters:
+        - name: user
+          in: header
+          description: The username for your Todoist account
+          schema:
+            type: string
+          example: Anadi (19185673)
+          required: true
+        - name: tagBasedProject
+          in: query
+          description: If you want to create separate projects by joining some tags
+          schema:
+            type: boolean
+          required: true
+        - name: projectSeparatedByTags
+          in: query
+          description: List all the tags separated by ; (semicolon) sign, which will be included
+          schema:
+            type: string
+          example: lunch;dinner;work
+          required: false
+        - name: tagsExcludedFromLabels
+          in: query
+          description: List all the tags separated by ; (semicolon) sign, which will not be added as label in todoist
+          schema:
+            type: string
+          example: tcs;meals
+          required: false
+      requestBody:
+        required: true
+        description: Data needed for the request to process. JSON can be obtained by hitting read endpoint
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/TickTickDataObject'
+      responses:
+        '200':
+          description: Operation completed successfully
+          content:
+            text/csv:
+              schema:
+                type: string
+                format: binary
+        default:
+          description: Some form of error occurred while performing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/parse/todoist:
+    post:
+      summary: Endpoint to parse the Todoist template CSV into a usable JSON
+      tags:
+        - Read
+      operationId: parseTodoistCsv
+      requestBody:
+        required: true
+        description: Provide the CSV file by uploading the file
+        content:
+          text/csv:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Operation completed successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TodoistDataObject'
+        default:
+          description: Some form of error occurred while performing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/parse/ticktick:
+    post:
+      summary: Endpoint to parse the TickTick CSV export into a usable JSON
+      tags:
+        - Read
+      operationId: parseTicktickCsv
+      requestBody:
+        required: true
+        description: Provide the CSV file by uploading the file
+        content:
+          text/csv:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Operation completed successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TickTickDataObject'
+        default:
+          description: Some form of error occurred while performing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/manage/health:
+    get:
+      summary: Get the health of the application
+      tags:
+        - Manage
+      operationId: performHealthCheck
+      responses:
+        '200':
+          description: Operation completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        default:
+          description: Some form of error occurred while performing the request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    TodoistDataObject:
+      type: object
+      properties:
+        kind:
+          type: string
+        content:
+          type: string
+        description:
+          type: string
+        priority:
+          type: integer
+          format: int32
+        responsible:
+          type: string
+        date:
+          type: string
+        date_lang:
+          type: string
+      required:
+        - content
+        - kind
+    TickTickDataObject:
+      type: object
+      properties:
+        title:
+          type: string
+        kind:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        content:
+          type: string
+        dueDate:
+          type: string
+        reminder:
+          type: string
+        repeat:
+          type: string
+        priority:
+          type: number
+        status:
+          type: number
+      required:
+        - title
+        - kind
+    ErrorResponse:
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: number
+        detail:
+          type: string
+        instance:
+          type: string
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        details:
+          type: object
+          properties:
+            api:
+              $ref: '#/components/schemas/StatusEnum'
+            gui:
+              $ref: '#/components/schemas/StatusEnum'
+            engine:
+              $ref: '#/components/schemas/StatusEnum'
+    StatusEnum:
+      type: string
+      enum:
+        - UP
+        - DOWN
+        - MAINTENANCE
