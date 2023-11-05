@@ -1,0 +1,34 @@
+spring:
+  output:
+    ansi:
+      enabled: 'ALWAYS'
+  jackson:
+    default-property-inclusion: 'NON_NULL'
+    deserialization:
+      fail-on-unknown-properties: true
+  banner:
+    location: 'classpath:/startup/banner.txt'
+
+server:
+  port: '20808'
+  servlet:
+    context-path: '/rest/api/project/migrator'
+  error:
+    include-stacktrace: 'ON_PARAM'
+
+management:
+  endpoints:
+    web:
+      base-path: '/manage/actuator'
+      exposure:
+        include: 'prometheus,beans,metrics,threaddump,env'
+  health:
+    ping:
+      base-uri: 'http://localhost:20808/rest/api/project/migrator'
+
+logging:
+  level:
+    web: 'DEBUG'
+    dev:
+      anadinema:
+        projects: 'TRACE'

@@ -1,0 +1,38 @@
+# To run the application in local mode, set the active profile to local
+
+spring:
+#  profiles:
+#    active: local
+  output:
+    ansi:
+      enabled: '${SPRING_ANSI_ENABLED}'
+  jackson:
+    default-property-inclusion: '${JACKSON_DEFAULT_PROPERTY_INCLUSION}'
+    deserialization:
+      fail-on-unknown-properties: '${FAIL_ON_UNKNOWN_PROPERTIES_IN_REQUEST}'
+  banner:
+    location: '${BANNER_PATH}'
+
+server:
+  port: '${SERVER_PATH}'
+  servlet:
+    context-path: '${SERVLET_CONTEXT_PATH}'
+  error:
+    include-stacktrace: '${INCLUDE_STACKTRACE_IN_ERROR_RESPONSE}'
+
+management:
+  endpoints:
+    web:
+      base-path: '${MANAGEMENT_ENDPOINT_BASE_PATH}'
+      exposure:
+        include: '${MANAGEMENT_ENDPOINT_EXPOSED}'
+  health:
+    ping:
+      base-uri: '${HEALTH_PING_BASE_URL}'
+
+logging:
+  level:
+    web: '${LOGGING_LEVEL_WEB_GROUP}'
+    dev:
+      anadinema:
+        projects: '${LOGGING_LEVEL_PROJECTS_BASE_PACKAGE}'
