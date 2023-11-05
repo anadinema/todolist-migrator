@@ -21,7 +21,7 @@ public class TickTickCsvPojoToDataMapper implements Function<List<TickTickCsvDat
                 .filter(tickTickCsvData -> !tickTickCsvData.getKind().isBlank())
                 .filter(tickTickCsvData -> (tickTickCsvData.getKind().equalsIgnoreCase(TickTickDataUtils.TEXT_KIND)
                         || tickTickCsvData.getKind().equalsIgnoreCase(TickTickDataUtils.CHECK_LIST_KIND)))
-                .filter(tickTickCsvData -> tickTickCsvData.getStatus() != 0)
+                .filter(tickTickCsvData -> tickTickCsvData.getStatus() == 0)
                 .filter(tickTickCsvData -> !tickTickCsvData.getTitle().isBlank())
                 .forEach(tickTickCsvData -> tickTickDataObjectList.add(map(tickTickCsvData)));
         return tickTickDataObjectList;

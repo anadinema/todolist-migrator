@@ -17,8 +17,8 @@ public class MigrateController implements dev.anadinema.projects.migration.api.M
     private MigrateService  migrateService;
 
     @Override
-    public ResponseEntity<Resource> transformForDestination(String user, Boolean tagBasedProject, List<TickTickDataObject> tickTickDataObjectList, String projectSeparatedByTags, String tagsExcludedFromLabels) {
-        return migrateService.trasformData(user, tagBasedProject, tickTickDataObjectList, projectSeparatedByTags, tagsExcludedFromLabels);
+    public ResponseEntity<Resource> transformForDestination(String user, Boolean tagBasedProject, List<TickTickDataObject> tickTickDataObjectList, String projectSeparatedByTags) {
+        return migrateService.trasformData(user, tagBasedProject, tickTickDataObjectList, projectSeparatedByTags);
     }
 
 }

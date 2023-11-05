@@ -1,7 +1,7 @@
 package dev.anadinema.projects.migration.service.impl;
 
 import dev.anadinema.projects.migration.exception.FailedParseException;
-import dev.anadinema.projects.migration.mapper.CsvToPojoMapper;
+import dev.anadinema.projects.migration.mapper.file.CsvToPojoMapper;
 import dev.anadinema.projects.migration.mapper.TickTickCsvPojoToDataMapper;
 import dev.anadinema.projects.migration.mapper.TodoistCsvPojoToDataMapper;
 import dev.anadinema.projects.migration.model.TickTickCsvData;

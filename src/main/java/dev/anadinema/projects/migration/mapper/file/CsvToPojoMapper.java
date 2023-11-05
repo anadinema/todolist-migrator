@@ -1,4 +1,4 @@
-package dev.anadinema.projects.migration.mapper;
+package dev.anadinema.projects.migration.mapper.file;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import dev.anadinema.projects.migration.exception.FailedParseException;
@@ -29,7 +29,6 @@ public class CsvToPojoMapper {
     }
 
     public static List<TodoistCsvData> mapToTodoistCsvPojo(Path path) {
-        List<TodoistCsvData> result;
         try(Reader reader = Files.newBufferedReader(path)) {
             return new CsvToBeanBuilder<TodoistCsvData>(reader)
                     .withOrderedResults(false)

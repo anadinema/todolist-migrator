@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface MigrateService {
 
-    ResponseEntity<Resource> trasformData(String user, Boolean tagBasedProject, List<TickTickDataObject> tickTickDataObjectList, String projectSeparatedByTags, String tagsExcludedFromLabels);
+    ResponseEntity<Resource> trasformData(String user, Boolean tagBasedProject, List<TickTickDataObject> tickTickDataObjectList, String projectSeparatedByTags);
 
 }

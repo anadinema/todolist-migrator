@@ -43,13 +43,6 @@ paths:
             type: string
           example: lunch;dinner;work
           required: false
-        - name: tagsExcludedFromLabels
-          in: query
-          description: List all the tags separated by ; (semicolon) sign, which will not be added as label in todoist
-          schema:
-            type: string
-          example: tcs;meals
-          required: false
       requestBody:
         required: true
         description: Data needed for the request to process. JSON can be obtained by hitting read endpoint
@@ -203,15 +196,19 @@ components:
     ErrorResponse:
       type: object
       properties:
-        type:
+        timestamp:
           type: string
-        title:
+          format: date-time
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+    ErrorObject:
+      type: object
+      properties:
+        error:
           type: string
-        status:
-          type: number
         detail:
-          type: string
-        instance:
           type: string
     HealthResponse:
       type: object
