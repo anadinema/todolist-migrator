@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - v*
+    branches:
+      - master
 
 jobs:
   maven-build:
@@ -16,9 +18,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      - run: cd app
       - name: Perform the maven build
-        run: mvn -B clean package
+        run: mvn -B clean package --file app/pom.xml
       - uses: actions/upload-artifact@v3
         with:
           name: Build artifacts
@@ -41,6 +42,7 @@ jobs:
           images: anadinema/todolist-migrator
           tags: |
             type=pep440,pattern={{version}}
+            type=ref,event=branch
           labels: |
             maintainer=anadinema
       - name: Build and push Docker image
