@@ -16,10 +16,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
+      - run: cd app
       - name: Perform the maven build
-        run:
-          - cd app
-          - mvn -B clean package
+        run: mvn -B clean package
       - uses: actions/upload-artifact@v3
         with:
           name: Build artifacts
