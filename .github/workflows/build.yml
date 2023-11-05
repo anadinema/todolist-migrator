@@ -23,7 +23,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: todolist-migrator-build-artifacts
-          path: target/*.jar
+          path: app/target/*.jar
   image-build-push:
     name: Docker image build and push to registry
     needs: maven-build
