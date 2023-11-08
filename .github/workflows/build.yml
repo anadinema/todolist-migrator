@@ -30,17 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: |
-            name=,enable=false
-          tags: |
-            type=pep440,pattern={{version}}
-            type=ref,event=branch
-          labels: |
-            maintainer=anadinema
       - name: Download a maven build artifacts
         uses: actions/download-artifact@v3
         with:
@@ -49,8 +38,10 @@ jobs:
         name: Build and push Docker image
         with:
           image: anadinema/todolist-migrator
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          labels: |
+            maintainer=anadinema,
+            org=dev.anadinema,
+            mail=anadi.nema@outlook.com
           registry: docker.io
           dockerfile: app/Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
