@@ -43,6 +43,7 @@ jobs:
             org=dev.anadinema,
             mail=anadi.nema@outlook.com
           registry: docker.io
+          directory: app
           dockerfile: app/Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
