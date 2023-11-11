@@ -46,6 +46,7 @@ public class TickTickDataToTodoistCsvPojoMapper {
             mappedData.setContent(mappedData.getContent() + TodoistDataUtils.TAG_DELIMITER
                     + String.join(TodoistDataUtils.TAG_DELIMITER, tickTickDataObject.getTags()));
         }
+        // TODO : Map the priority here
         mappedData.setAuthor(user);
         mappedData.setDateLang(TodoistDataUtils.DEFAULT_DATE_LANG);
         mappedData.setDurationUnit(TodoistDataUtils.DEFAULT_DURATION_UNIT);

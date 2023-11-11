@@ -1,5 +1,5 @@
 name: ci
-run-name: ci-run-${{ github.run_id }}.${{ github.run_attempt }}
+run-name: ci-run-${{ github.run_id }}--#-${{ github.run_attempt }}
 
 on:
   push:
